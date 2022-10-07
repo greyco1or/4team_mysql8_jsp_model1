@@ -1,0 +1,115 @@
+root(DB관리자)로 로그인 후 사용자 DB생성 및 권한 부여
+DB사용자아이디 : dev00id
+DB사용자비번   : dev00pw
+DB명 	       : dev00db
+
+
+-- DB 생성
+CREATE DATABASE dev00db DEFAULT CHARACTER SET UTF8;
+-- 사용자 추가
+CREATE USER 'dev00id'@'%' IDENTIFIED BY 'dev00pw';
+-- 사용자 권한 설정
+GRANT ALL PRIVILEGES ON dev00db.* TO 'dev00id'@'%';
+-- 변경된 내용을 메모리에 반영
+FLUSH PRIVILEGES;
+--------------------------------
+
+8버전 계정생성
+create database dev00db;
+
+create user dev00id@'%' identified by 'dev43pw' ;
+grant all privileges on dev00db.* to dev00id@'%' with grant option;
+flush PRIVILEGES;
+
+ALTER USER 'dev00id'@'%' IDENTIFIED WITH mysql_native_password BY 'dev00pw';
+
+두번 째는 my.ini파일
+default_authentication_plugin=mysql_native_password
+
+DB사용자계정(dev00id)과 DB명(dev00db)으로 로그인 후
+
+3)테이블생성문장
+4)입력문장
+create table tb_member(
+m_id VARCHAR(10) NOT NULL PRIMARY KEY,
+m_pw VARCHAR(10) NOT NULL,
+m_level VARCHAR(10) NOT NULL,
+m_name VARCHAR(20) NOT NULL,
+m_email VARCHAR(80)
+)DEFAULT CHARSET=euckr;
+
+
+insert into tb_member values('id001','pw001','관리자','홍01','test01');
+insert into tb_member values('id002','pw002','판매자','홍02','test02');
+insert into tb_member values('id003','pw003','판매자','홍03','test03');
+insert into tb_member values('id004','pw004','구매자','홍04','test04');
+insert into tb_member values('id005','pw005','구매자','홍05','test05');
+
+create table tb_goods(
+g_code VARCHAR(20) NOT NULL PRIMARY KEY,
+m_id VARCHAR(20) NOT NULL,
+g_name VARCHAR(20) NOT NULL,
+g_cate VARCHAR(20) NOT NULL,
+g_price VARCHAR(20) NOT NULL,
+g_color VARCHAR(20) NOT NULL,
+g_size VARCHAR(20) NOT NULL,
+g_date VARCHAR(20) NOT NULL,
+g_desc VARCHAR(80)
+)DEFAULT CHARSET=euckr;
+
+INSERT INTO tb_goods VALUES ('goods_1', 'id001', '1', '1', '1', '1', '1', now(), '1');
+
+INSERT INTO tb_goods VALUES ('goods_2', 'id002', '2', '2', '2', '2', '2', now(), '2');
+
+
+select substring(g_code,7)  from tb_goods;
+
+select max(CAST(substring(g_code,7) AS DECIMAL))  from tb_goods;
+
+select max(CAST(substring(g_code,7) AS DECIMAL)) as maxcol from tb_goods;
+
+//회원과 상품 join 예
+select tb_member.*, tb_goods.* from tb_member inner join tb_goods on tb_member.m_id = tb_goods.m_id 
+and DATE_FORMAT(g_date,'%Y-%m-%d') between '2021-04-01' and '2021-04-05' order by g_date 
+
+
+//오라클용
+create table oracle_goods(
+g_code VARCHAR2(20) NOT NULL PRIMARY KEY,
+ora_id VARCHAR2(20) NOT NULL,
+g_name VARCHAR2(20) NOT NULL,
+g_cate VARCHAR2(20) NOT NULL,
+g_price VARCHAR2(20) NOT NULL,
+g_color VARCHAR2(20) NOT NULL,
+g_size VARCHAR2(20) NOT NULL,
+g_date VARCHAR2(20) NOT NULL,
+g_desc VARCHAR2(80)
+)
+
+
+INSERT INTO oracle_goods VALUES ('goods_1', 'id001', '1', '1', '1', '1', '1', sysdate , '1');
+INSERT INTO oracle_goods VALUES ('goods_2', 'id002', '2', '2', '2', '2', '2', sysdate , '2');
+INSERT INTO oracle_goods VALUES ('goods_3', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_4', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_5', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_6', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_7', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_8', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_9', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_10', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_11', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_12', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_13', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+INSERT INTO oracle_goods VALUES ('goods_14', 'id003', '3', '3', '3', '3', '3', sysdate , '3');
+
+
+
+select substr(g_code,7)  from oracle_goods;
+
+select max(substr(g_code,7))  from oracle_goods;
+
+select max(to_number(substr(g_code,7)))  from oracle_goods;
+
+
+
+
